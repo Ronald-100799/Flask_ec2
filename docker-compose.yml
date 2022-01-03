@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 services:
   flaskapp:
@@ -12,7 +12,7 @@ services:
     image: nginx:latest
     container_name: nginx
     environment:
-      - SERVER_NAME=0.0.0.0
+      - SERVER_NAME=3.91.226.133
     restart: always 
     network_mode: host
     
