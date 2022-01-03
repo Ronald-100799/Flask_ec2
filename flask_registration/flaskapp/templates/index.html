@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Data Table</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.9.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.9.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>  
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    
+ <style>
+.dataTables_filter {
+   width: 40%;
+   float: right;
+   text-align: right;
+}
+
+ </style>
+  </head>
+  <body>
+ 
+    <!-- NAVIGATION  -->
+    <div>
+      <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+          <div class="container" style="margin-left:-3.0em">
+            
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+              <span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span>
+            </button>
+              <div class="collapse navbar-collapse" id="navcol-1">
+                  <ul class="nav navbar-nav mr-auto"></ul>
+                  <a class="btn btn-warning action-button" role="button" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home</a></span>
+                   <a style="margin-left:1.0em" class="btn btn-warning action-button" role="button" href="/Index1"><i class="fa fa-registered" aria-hidden="true"></i> Registration</a></span>
+                  </div>
+          </div>
+      </nav>
+    </div>
+    <hr>
+ 
+    <div class="container pt-4">
+      {% block body %}
+          <div class="row">
+            <div class="col-md-4">
+              {% with messages = get_flashed_messages()  %}
+              {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              {% endfor %}
+              {% endif %}
+              {% endwith %}
+              <div class="container pt-4">
+                <form action="{{url_for('add_registration')}}" method="POST">
+                </form>
+              </div>
+            </div>
+            <div class="col-md-12" >
+              
+            <form action="{{url_for('add_registration')}}" method="POST"></form>
+              <table id="example" class="table table-striped table-hover table-bordered" style="width:100%">
+                <thead>
+                  <tr>
+                    <td class="text-center">ID</td>
+                    <td class="text-center">Firstname</td>
+                    <td class="text-center">Lastname</td>
+                    <td class="text-center">Email</td>
+                    <td class="text-center">Gender</td>
+                    <td class="text-center">Address</td>
+                    <td class="text-center">DOB</td>
+                    <td class="text-center">Sem</td>
+                    <td class="text-center">Rollno</td>
+                    <td class="text-center">Phone</td>
+                    <td class="text-center">Course</td>
+                    <td class="text-center">Action</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for data in registration %}
+                  <tr>
+          <td>{{data.id}}</td>
+                    <td class="text-center">{{data.firstname}}</td>
+                    <td class="text-center">{{data.lastname}}</td>
+                    <td class="text-center">{{data.email}}</td>
+                    <td class="text-center">{{data.gender}}</td>
+                    <td class="text-center">{{data.address}}</td>
+                    <td class="text-center">{{data.date}}</td>
+                    <td class="text-center">{{data.sem}}</td>
+                    <td class="text-center">{{data.rolno}}</td>
+                    <td class="text-center">{{data.phone}}</td>
+                    <td class="text-center">{{data.course}}</td>
+                    <td width="130">
+                      <a href="/edit/{{data.id}}" class="btn btn-secondary btn-sm">Update</a>
+                      <a href="/delete/{{data.id}}" class="btn btn-danger btn-delete btn-sm">Delete</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      {% endblock %}
+    </div>
+  
+<script>
+
+
+
+
+const btnDelete= document.querySelectorAll('.btn-delete');
+if(btnDelete) {
+  const btnArray = Array.from(btnDelete);
+  btnArray.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      if(!confirm('Are you sure you want to delete it?')){
+        e.preventDefault();
+      }
+    });
+  })
+}
+
+
+$(function() {
+  $(document).ready(function() {
+    $('#example').DataTable();
+  });
+});
+
+
+
+$(document).ready(function() {
+    $('#example').DataTable({     
+      "aLengthMenu": [[3, 5, 10, 25, -1], [3, 5, 10, 25, "All"]],
+        "iDisplayLength": 3
+       } 
+    );
+} );
+ 
+</script>
+  </body>
+</html>
